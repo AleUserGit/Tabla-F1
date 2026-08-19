@@ -1,30 +1,20 @@
-import json
-from funciones import ingresar_n, armar_tabla, ordenar_tabla, sumar_puntos, nueva_carrera, armar_constructores, formato_pilotos, formato_constructores
+from funciones import ingresar_n, tipo_jugador, tipo_equipo, armar_tabla, tabla_equipos, ordenar_tabla, formato_jugadores, formato_equipo
+from funciones import agregar_puntos, sumar_puntos
 
-try:
-    with open("datos.json", "r") as archivo:
-        wdc = json.load(archivo)
-except FileNotFoundError:
-    cantidad = ingresar_n()
-    wdc = armar_tabla(cantidad)
+#Ingresa datos básicos del programa -> Cantidad de equipos, categoría de jugadores y equipos
+cant = ingresar_n()
+tipo_j = tipo_jugador()
+tipo_e = tipo_equipo()
 
-print("--")
+tabla_ind = armar_tabla(cant, tipo_j, tipo_e)
 
+sigue = agregar_puntos()
 
-sigue = nueva_carrera()
 while sigue:
-    wdc = sumar_puntos(wdc)
-    print("")
-    sigue = nueva_carrera()
+    sumar_puntos(tabla_ind, tipo_j)
+    sigue = agregar_puntos()
 
-ordenar_tabla(wdc)
-formato_pilotos(wdc)
-
-print("--")
-
-wcc = armar_constructores(wdc)
-ordenar_tabla(wcc)
-formato_constructores(wcc)
-
-with open("datos.json", "w") as archivo:
-    json.dump(wdc, archivo)
+ordenar_tabla(tabla_ind)
+tabla_gru = tabla_equipos(tabla_ind)
+formato_jugadores(tabla_ind, tipo_j, tipo_e)
+formato_equipo(tabla_gru, tipo_e)

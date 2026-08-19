@@ -7,50 +7,69 @@ def ingresar_n():
     n = int(n)
     return n
 
-def ingresar_piloto():
-    piloto = input("Ingrese el apellido del piloto: ").capitalize().strip()
-    while piloto == "":
+def tipo_jugador():
+    jugador = input("Ingrese el tipo de jugador: ").capitalize().strip()
+    while jugador == "":
         print("--")
-        print("Error: el apellido no puede estar vacío")
-        piloto = input("Ingrese el apellido del piloto: ").capitalize().strip()
-    return piloto
+        print("Error: no puede estar vacío")
+        jugador = input("Ingrese el tipo de jugador: ").capitalize().strip()
+    return jugador
 
-def ingresar_equipo():
-    equipo = input("Ingrese la escudería del piloto: ").strip()
+def tipo_equipo():
+    equipo = input("Ingrese el tipo de equipo: ").capitalize().strip()
     while equipo == "":
-            print("--")
-            print("Error: la escudería no puede estar vacía")
-            equipo = input("Ingrese la escudería del piloto: ").strip()
+        print("--")
+        print("Error: no puede estar vacío")
+        equipo = input("Ingrese el tipo de equipo: ").capitalize().strip()
     return equipo
 
-def ingresar_puntos():
-    puntos = input("Ingrese los puntos del piloto: ").strip()
+def ingresar_jugador(categoria_jugador):
+    categoria_jugador = categoria_jugador.lower()
+    nombre = input(f"Ingrese el nombre del {categoria_jugador}: ").capitalize().strip()
+    while nombre == "":
+        print("--")
+        print("Error: el nombre no puede estar vacío")
+        nombre = input(f"Ingrese el nombre del {categoria_jugador}: ").capitalize().strip()
+    return nombre
+
+def ingresar_equipo(categoria_equipo, categoria_jugador):
+    categoria_jugador, categoria_equipo = categoria_jugador.lower(), categoria_equipo.lower()
+    equipo = input(f"Ingrese el {categoria_equipo} del {categoria_jugador}: ").capitalize().strip()
+    while equipo == "":
+            print("--")
+            print("Error: el nombre no puede estar vacío")
+            equipo = input(f"Ingrese el {categoria_equipo} del {categoria_jugador}: ").capitalize().strip()
+    return equipo
+
+def ingresar_puntos(categoria_jugador):
+    categoria_jugador = categoria_jugador.lower()
+    puntos = input(f"Ingrese los puntos del {categoria_jugador}: ").strip()
     while not puntos.isdigit():
         print("--")
         print("Error: se necesita un entero positivo")
-        puntos = input("Ingrese los puntos del piloto: ").strip()
+        puntos = input(f"Ingrese los puntos del {categoria_jugador}: ").strip()
     puntos = int(puntos)
     return puntos
 
-def armar_tabla(n):
+def armar_tabla(n, categoria_jugador, categoria_equipo):
     tabla = []
     for i in range(n*2):
         fila = []
-        piloto = ingresar_piloto()
+        jugador = ingresar_jugador(categoria_jugador)
         print("")
-        equipo = ingresar_equipo()
+        equipo = ingresar_equipo(categoria_equipo, categoria_jugador)
         print("")
-        fila.append(piloto)
+        fila.append(jugador)
         fila.append(0)
         fila.append(equipo)
         tabla.append(fila)
     return tabla
 
-def armar_constructores( wdc):
+def tabla_equipos(tabla_jugador):
     tabla = []
-    for piloto in wdc:
-        puntos = piloto[1]
-        equipo = piloto[2]
+    for jugador in tabla_jugador:
+        puntos = jugador[1]
+        equipo = jugador[2]
         existe  = False
 
         for f in tabla:
@@ -63,13 +82,13 @@ def armar_constructores( wdc):
     return tabla
 
             
-def formato_pilotos(tabla):
+def formato_jugadores(tabla, categoria_jugador, categoria_equipo):
     puesto = 1
     print("")
     print(f"{'Puesto':<10}"
-          f"{'Piloto':<15}"
+          f"{f'{categoria_jugador}':<15}"
           f"{'Puntos':<15}"
-          f"{'Escuderia':<15}")
+          f"{f'{categoria_equipo}':<15}")
     
     print("")
     for i in range(len(tabla)):
@@ -80,11 +99,11 @@ def formato_pilotos(tabla):
         puesto += 1
     print("") 
 
-def formato_constructores(tabla):
+def formato_equipo(tabla, cateogria_equipo):
     puesto = 1
     print("")
     print(f"{'Puesto':<10}"
-          f"{'Constructor':<15}"
+          f"{f'{cateogria_equipo}':<15}"
           f"{'Puntos':<15}")
     
     print("")
@@ -106,7 +125,7 @@ def ordenar_tabla(tabla):
         
     return tabla
 
-def nueva_carrera():
+def agregar_puntos():
     nueva = input("Hay más puntos que agregar? (si/no) ").lower().strip()
     while nueva != "si" and nueva != "no":
         print("Error: responda con si o no")
@@ -116,21 +135,21 @@ def nueva_carrera():
     else:
         return False
 
-def si_suma():
-    suma = input("El piloto sumó puntos? (si/no) ").lower().strip()
+def si_suma(nombre):
+    suma = input(f"{nombre} sumó puntos? (si/no) ").lower().strip()
     while suma != "si" and suma != "no":
         print("Error: responda con si o no")
-        suma = input("El piloto sumó puntos? (si/no) ").lower().strip()
+        suma = input(f"{nombre} sumó puntos? (si/no) ").lower().strip()
     if suma == "si":
         return True
     else:
         return False
     
 
-def sumar_puntos(wdc):
-    for i in range(len(wdc)):
-        print(wdc[i])
-        if si_suma():
-            puntos = ingresar_puntos()
-            wdc[i][1] += puntos
-    return wdc
+def sumar_puntos(tabla_jugador, categoria_jugador):
+    for i in range(len(tabla_jugador)):
+        print(tabla_jugador[i])
+        if si_suma(tabla_jugador[i][0]):
+            puntos = ingresar_puntos(categoria_jugador)
+            tabla_jugador[i][1] += puntos
+    return tabla_jugador
