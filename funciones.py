@@ -1,3 +1,5 @@
+import os
+
 def ingresar_n():
     n = input("Ingrese la cantidad de equipos en competencia: ").strip()
     while not n.isdigit() or int(n) == 0:
@@ -99,11 +101,11 @@ def formato_jugadores(tabla, categoria_jugador, categoria_equipo):
         puesto += 1
     print("") 
 
-def formato_equipo(tabla, cateogria_equipo):
+def formato_equipo(tabla, categoria_equipo):
     puesto = 1
     print("")
     print(f"{'Puesto':<10}"
-          f"{f'{cateogria_equipo}':<15}"
+          f"{f'{categoria_equipo}':<15}"
           f"{'Puntos':<15}")
     
     print("")
@@ -153,3 +155,27 @@ def sumar_puntos(tabla_jugador, categoria_jugador):
             puntos = ingresar_puntos(categoria_jugador)
             tabla_jugador[i][1] += puntos
     return tabla_jugador
+
+def menu():
+    print("1 - Nuevo Campeonato")
+    print("2 - Cargar Campeonato")
+    print("3 - Eliminar Campeonato")
+    print("4 - Salir")
+
+def elegir_opcion():
+    menu()
+    print("")
+    opcion = input("")
+    while not opcion.isdigit() or not (0 < int(opcion) < 5):
+        print("--")
+        print("Error: la opción seleccionada no es válida")
+        opcion = input("")
+    opcion = int(opcion)
+    return opcion
+
+
+def archivo_existe(archivo):
+    existe = False
+    if os.path.exists(archivo):
+        existe = True
+    return existe
