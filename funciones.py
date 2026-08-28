@@ -1,5 +1,3 @@
-import os
-
 def ingresar_n():
     n = input("Ingrese la cantidad de equipos en competencia: ").strip()
     while not n.isdigit() or int(n) == 0:
@@ -172,10 +170,3 @@ def elegir_opcion():
         opcion = input("")
     opcion = int(opcion)
     return opcion
-
-
-def archivo_existe(archivo):
-    existe = False
-    if os.path.exists(archivo):
-        existe = True
-    return existe

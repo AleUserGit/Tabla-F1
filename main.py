@@ -1,5 +1,7 @@
+import json
 from funciones import ingresar_n, tipo_jugador, tipo_equipo, armar_tabla, tabla_equipos, ordenar_tabla, formato_jugadores, formato_equipo
-from funciones import agregar_puntos, sumar_puntos, elegir_opcion, archivo_existe
+from funciones import agregar_puntos, sumar_puntos, elegir_opcion
+from persistencia import archivo_existe, guardar_datos, guardar_archivo
 
 print("Iniciando Programa")
 print("--")
@@ -12,16 +14,21 @@ opcion = elegir_opcion()
 if opcion == 1:
     print("")
     nombre = input("Ingrese el nombre del nuevo campeonato: ").strip()
-    existe = archivo_existe(nombre + ".json")
+    existe = archivo_existe(nombre)
     while existe:
         print("--")
         print(f"Error: ya existe un campeonato con el nombre {nombre}")
         nombre = input("Ingrese el nombre del nuevo campeonato: ").strip()
-        existe = archivo_existe(nombre + ".json")
+        existe = archivo_existe(nombre)
 
     cant = ingresar_n()
     tipo_j = tipo_jugador()
     tipo_e = tipo_equipo()
+    config = {
+        "categoria_jugador": tipo_j,
+        "categoria_equipo": tipo_e,
+        "cantidad_equipos": cant
+        }
 
     tabla_ind = armar_tabla(cant, tipo_j, tipo_e)
 
@@ -33,8 +40,13 @@ if opcion == 1:
     ordenar_tabla(tabla_ind)
     tabla_gru = tabla_equipos(tabla_ind)
 
+    datos = guardar_datos(config, tabla_ind, tabla_gru)
+
+    print("")
     formato_jugadores(tabla_ind, tipo_j, tipo_e)
     formato_equipo(tabla_gru, tipo_e)
+
+    guardar_archivo(nombre, datos)
     
 elif opcion == 2:
     print("")
@@ -57,3 +69,8 @@ elif opcion == 3:
         print(f"Error: no existe ningún campeonato con el nombre {nombre}")
         nombre = input("Ingrese el nombre del campeonato que desea eliminar: ").strip()
         existe = archivo_existe(nombre + ".json")
+else:
+    print("")
+    print("No se realizaron acciones")
+
+print("PROGRAMA FINALIZADO")
