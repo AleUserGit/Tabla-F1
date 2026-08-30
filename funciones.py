@@ -170,3 +170,24 @@ def elegir_opcion():
         opcion = input("")
     opcion = int(opcion)
     return opcion
+
+def validar_si_no(validar):
+    if validar != "si" and validar != "no":
+        return False
+    return True
+
+def validar_decision():
+    print("¿Desea guardar los cambios?")
+    cambios = input("(si / no): ").lower().strip()
+    valido = validar_si_no(cambios)
+    while not valido:
+        print("--")
+        print("Error: responda con sí o no")
+        print("¿Desea guardar los cambios?")
+        cambios = input("(si / no): ").lower().strip()
+        valido = validar_si_no(cambios)
+
+    if cambios == "si":
+        return True
+    else:
+        return False
