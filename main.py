@@ -36,8 +36,9 @@ if opcion == 1:
         sumar_puntos(tabla_ind, tipo_j)
         sigue = agregar_puntos()
 
-    ordenar_tabla(tabla_ind)
     tabla_gru = tabla_equipos(tabla_ind)
+    ordenar_tabla(tabla_ind)
+    ordenar_tabla(tabla_gru)
 
     datos = guardar_datos(config, tabla_ind, tabla_gru)
 
@@ -85,8 +86,9 @@ elif opcion == 2:
 
     cambios = validar_decision()
     if cambios:
-        ordenar_tabla(tabla_ind)
         tabla_gru = tabla_equipos(tabla_ind)
+        ordenar_tabla(tabla_ind)
+        ordenar_tabla(tabla_gru)
         config = {
             "categoria_jugador": tipo_j,
             "categoria_equipo": tipo_e,
