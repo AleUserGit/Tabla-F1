@@ -80,26 +80,29 @@ elif opcion == 2:
     formato_equipo(tabla_gru, tipo_e)
 
     sigue = agregar_puntos()
-    while sigue:
-        sumar_puntos(tabla_ind, tipo_j)
-        sigue = agregar_puntos()
+    if not sigue:
+        pass
+    elif sigue:
+        while sigue:
+            sumar_puntos(tabla_ind, tipo_j)
+            sigue = agregar_puntos()
 
-    cambios = validar_decision()
-    if cambios:
-        tabla_gru = tabla_equipos(tabla_ind)
-        ordenar_tabla(tabla_ind)
-        ordenar_tabla(tabla_gru)
-        config = {
-            "categoria_jugador": tipo_j,
-            "categoria_equipo": tipo_e,
-            "cantidad_equipos": cant
-            }
-        datos = guardar_datos(config, tabla_ind, tabla_gru)
+        cambios = validar_decision()
+        if cambios:
+            tabla_gru = tabla_equipos(tabla_ind)
+            ordenar_tabla(tabla_ind)
+            ordenar_tabla(tabla_gru)
+            config = {
+                "categoria_jugador": tipo_j,
+                "categoria_equipo": tipo_e,
+                "cantidad_equipos": cant
+                }
+            datos = guardar_datos(config, tabla_ind, tabla_gru)
 
-        guardar_archivo(nombre, datos)
-        print("")
-        formato_jugadores(tabla_ind, tipo_j, tipo_e)
-        formato_equipo(tabla_gru, tipo_e)
+            guardar_archivo(nombre, datos)
+            print("")
+            formato_jugadores(tabla_ind, tipo_j, tipo_e)
+            formato_equipo(tabla_gru, tipo_e)
 
 elif opcion == 3:
     print("")
